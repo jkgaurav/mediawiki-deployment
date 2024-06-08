@@ -1,4 +1,4 @@
-resource "azurerm_kubernetes_cluster" "k8s" {
+resource "azurerm_kubernetes_cluster" "aks" {
   name                = "mediawiki-aks"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
