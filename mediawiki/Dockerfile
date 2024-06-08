@@ -12,8 +12,8 @@ RUN mkdir -p /opt/rh/httpd24/root/var/www/html && \
     chown -R apache:apache /opt/rh/httpd24/root/var/www/html && \
     chown -R apache:apache /opt/rh/rh-php73/root/var/www/html
 
-# Download and import the public key
-RUN wget -qO- https://releases.wikimedia.org/keys/9D3BB7B0.pub | gpg --import -
+# Import the public key from a key server
+RUN gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 9D3BB7B0
 
 # Download and verify MediaWiki
 ENV MEDIAWIKI_VERSION 1.41.1
