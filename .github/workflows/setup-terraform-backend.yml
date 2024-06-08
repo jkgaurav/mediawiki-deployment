@@ -1,9 +1,16 @@
 name: Setup Terraform Backend
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      approve:
+        description: 'Approve plan and apply changes'
+        required: true
+        default: 'false'
+      destroy:
+        description: 'Destroy resources'
+        required: true
+        default: 'false'
 
 jobs:
   terraform-backend:
