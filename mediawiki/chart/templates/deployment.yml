@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediawiki
+  labels:
+    app: mediawiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediawiki
+  template:
+    metadata:
+      labels:
+        app: mediawiki
+    spec:
+      containers:
+        - name: mediawiki
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: MEDIAWIKI_DB_HOST
+              value: "{{ .Values.externalDatabase.host }}"
+            - name: MEDIAWIKI_DB_PORT
+              value: "{{ .Values.externalDatabase.port }}"
+            - name: MEDIAWIKI_DB_NAME
+              value: "{{ .Values.externalDatabase.database }}"
+            - name: MEDIAWIKI_DB_USER
+              value: "{{ .Values.externalDatabase.user }}"
+            - name: MEDIAWIKI_DB_PASSWORD
+              value: "{{ .Values.externalDatabase.password }}"

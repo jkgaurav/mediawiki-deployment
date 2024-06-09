@@ -1,0 +1,42 @@
+# mariadb/templates/deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 3306
+              name: mariadb
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mediawiki-db-secret
+                  key: mysql-root-password
+            - name: MYSQL_DATABASE
+              value: "{{ .Values.db.name }}"
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mediawiki-db-secret
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mediawiki-db-secret
+                  key: mysql-password

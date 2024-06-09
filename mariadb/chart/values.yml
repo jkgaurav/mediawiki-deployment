@@ -1,0 +1,13 @@
+# mariadb/values.yaml
+
+image:
+  repository: mediawikideployacr01.azurecr.io/mariadb
+  tag: latest
+
+rootUser:
+  password: ""
+
+db:
+  name: "{{ env.MYSQL_DATABASE }}"
+  user: ""
+  password: ""
