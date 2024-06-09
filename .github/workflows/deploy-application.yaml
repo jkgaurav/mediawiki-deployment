@@ -24,14 +24,15 @@ jobs:
     - name: Get AKS credentials
       run: az aks get-credentials --resource-group mediawiki-rg --name mediawiki-aks
 
-    - name: Create ACR Pull Secret
+    - name: Ensure ACR Pull Secret
       run: |
+        kubectl delete secret acr-secret --ignore-not-found
         kubectl create secret docker-registry acr-secret \
           --docker-server=${{ secrets.ACR_LOGIN_SERVER }} \
           --docker-username=${{ secrets.ACR_ADMIN_USERNAME }} \
           --docker-password=${{ secrets.ACR_ADMIN_PASSWORD }} \
           --docker-email=unused
-
+    
     # - name: Generate Docker config JSON
     #   id: docker_config
     #   run: |
