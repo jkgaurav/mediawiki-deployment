@@ -11,9 +11,10 @@ externalDatabase:
 
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
   hosts:
     - host: mediawiki.deployment.com
       paths: ["/"]
   tls: []
+
+common:
+  dockerConfigJson: ""

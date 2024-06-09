@@ -1,5 +1,3 @@
-# mariadb/values.yaml
-
 image:
   repository: mediawikideployacr01.azurecr.io/mariadb
   tag: latest
@@ -11,3 +9,6 @@ db:
   name: "{{ env.MYSQL_DATABASE }}"
   user: ""
   password: ""
+
+common:
+  dockerConfigJson: ""

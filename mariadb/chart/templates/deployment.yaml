@@ -1,5 +1,3 @@
-# mariadb/templates/deployment.yaml
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +14,8 @@ spec:
       labels:
         app: mariadb
     spec:
+      imagePullSecrets:
+        - name: acr-secret
       containers:
         - name: mariadb
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
