@@ -52,8 +52,16 @@ jobs:
       run: |
           helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
             --namespace ingress-nginx --create-namespace \
-            --set controller.replicaCount=2      
+            --set controller.replicaCount=2 
 
+    - name: Verify NGINX Ingress Controller Pods
+      run: |
+        kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+
+    - name: Verify NGINX Ingress Controller Services
+      run: |
+        kubectl get svc -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+      
     - name: Deploy MariaDB
       run: |
         helm upgrade --install mariadb ./mariadb/chart \
