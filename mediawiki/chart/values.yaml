@@ -15,6 +15,3 @@ ingress:
     - host: mediawiki.deployment.com
       paths: ["/"]
   tls: []
-
-common:
-  dockerConfigJson: ""

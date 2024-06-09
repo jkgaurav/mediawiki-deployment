@@ -9,6 +9,3 @@ db:
   name: "{{ env.MYSQL_DATABASE }}"
   user: ""
   password: ""
-
-common:
-  dockerConfigJson: ""

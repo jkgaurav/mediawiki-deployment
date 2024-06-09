@@ -16,9 +16,6 @@ jobs:
       with:
         version: 'latest'
 
-    # - name: Set up Azure CLI
-    #   uses: azure/CLI@v1
-
     - name: Azure Login
       uses: azure/login@v2
       with:
@@ -26,6 +23,16 @@ jobs:
 
     - name: Get AKS credentials
       run: az aks get-credentials --resource-group mediawiki-rg --name mediawiki-aks
+
+    - name: Generate Docker config JSON
+      id: docker_config
+      run: |
+        DOCKER_CONFIG_JSON=$(echo -n "{\"auths\":{\"mediawikideployacr01.azurecr.io\":{\"username\":\"${{ secrets.ACR_ADMIN_USERNAME }}\",\"password\":\"${{ secrets.ACR_ADMIN_PASSWORD }}\",\"email\":\"\"}}}")
+        echo "DOCKER_CONFIG_JSON=$DOCKER_CONFIG_JSON" >> $GITHUB_ENV
+
+    - name: Deploy ACR Secret
+      run: |
+        helm upgrade --install common ./common/chart --set acr.dockerconfigjson=${{ env.DOCKER_CONFIG_JSON }}
 
     - name: Deploy MariaDB
       run: |

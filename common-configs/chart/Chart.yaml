@@ -1,0 +1,4 @@
+apiVersion: v2
+name: common
+description: A Helm chart for common resources like secrets
+version: 1.0.0
