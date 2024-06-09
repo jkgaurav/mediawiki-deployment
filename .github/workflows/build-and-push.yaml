@@ -1,0 +1,29 @@
+name: Build and Push Images
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Azure Container Registry
+      run: |
+        echo ${{ secrets.ACR_ADMIN_PASSWORD }} | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_ADMIN_USERNAME }} --password-stdin
+
+    - name: Build and push MediaWiki image
+      run: |
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/mediawiki:latest ./mediawiki
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/mediawiki:latest
+
+    - name: Build and push MariaDB image
+      run: |
+        docker build --build-arg MYSQL_DATABASE=${{ vars.MYSQL_DATABASE }} -t ${{ secrets.ACR_LOGIN_SERVER }}/mariadb:latest ./mariadb
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/mariadb:latest
