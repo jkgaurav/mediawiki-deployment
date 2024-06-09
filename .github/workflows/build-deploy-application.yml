@@ -29,6 +29,9 @@ jobs:
         docker push ${{ secrets.ACR_LOGIN_SERVER }}/mariadb:latest
 
   deploy:
+    permissions:
+      id-token: write
+      contents: read
     runs-on: ubuntu-latest
     needs: build-and-push
 
