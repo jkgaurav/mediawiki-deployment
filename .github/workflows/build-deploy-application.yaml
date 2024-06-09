@@ -28,8 +28,6 @@ jobs:
       id: docker_config
       run: |
         DOCKER_CONFIG_JSON=$(echo -n "{\"auths\":{\"mediawikideployacr01.azurecr.io\":{\"username\":\"${{ secrets.ACR_ADMIN_USERNAME }}\",\"password\":\"${{ secrets.ACR_ADMIN_PASSWORD }}\",\"email\":\"\"}}}")
-        $(echo -n "{\"auths\":{\"mediawikideployacr01.azurecr.io\":{\"username\":\"${{ secrets.ACR_ADMIN_USERNAME }}\",\"password\":\"${{ secrets.ACR_ADMIN_PASSWORD }}\",\"email\":\"\"}}}")
-        $(echo -n "{\"auths\":{\"mediawikideployacr01.azurecr.io\":{\"username\":\"${{ secrets.ACR_ADMIN_USERNAME }}\",\"password\":\"$ACR_PASSWORD\",\"email\":\"\"}}}" | base64 -w 0)
         echo "DOCKER_CONFIG_JSON=$DOCKER_CONFIG_JSON" >> $GITHUB_ENV
 
     - name: Deploy ACR Secret
