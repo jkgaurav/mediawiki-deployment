@@ -89,17 +89,34 @@ jobs:
         helm upgrade --install mediawiki ./mediawiki/chart \
           --set externalDatabase.password=${{ secrets.MYSQL_PASSWORD }}
 
+    - name: Verify MediaWiki Deployment and Pods
+      run: |
+        kubectl get deployment mediawiki -n default
+        kubectl get pods -n default -l app=mediawiki
+  
+    - name: Check Logs for MediaWiki Pods
+      run: |
+        kubectl logs -n default -l app=mediawiki
+  
     - name: Verify MediaWiki Service
       run: |
-        kubectl get svc mediawiki -n default
-
-    - name: Verify MariaDB Service
-      run: |
-        kubectl get svc mariadb -n default
-
+        kubectl get svc mediawiki -n default -o yaml
+  
     - name: Verify MediaWiki Ingress
       run: |
-        kubectl get ingress -n default
-      
-      
-        
+        kubectl get ingress mediawiki -n default -o yaml
+
+    - name: Check Ingress Controller Logs
+      run: |
+        kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+
+    - name: Verify DNS Resolution
+      run: |
+        nslookup mediawiki.deployment.com
+
+    - name: Verify Ingress Controller Connectivity to MediaWiki Service
+      run: |
+        kubectl run -i --tty --rm debug --image=busybox --restart=Never -- wget -qO- http://mediawiki.default.svc.cluster.local
+
+
+  
