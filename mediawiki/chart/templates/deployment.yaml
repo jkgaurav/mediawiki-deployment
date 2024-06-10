@@ -33,3 +33,9 @@ spec:
               value: "{{ .Values.externalDatabase.user }}"
             - name: MEDIAWIKI_DB_PASSWORD
               value: "{{ .Values.externalDatabase.password }}"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
