@@ -75,7 +75,17 @@ jobs:
         helm upgrade --install mediawiki ./mediawiki/chart \
           --set externalDatabase.password=${{ secrets.MYSQL_PASSWORD }}
 
+    - name: Verify MediaWiki Service
+      run: |
+        kubectl get svc mediawiki -n default
+
+    - name: Verify MariaDB Service
+      run: |
+        kubectl get svc mariadb -n default
+
     - name: Verify MediaWiki Ingress
       run: |
         kubectl get ingress -n default
+      
+      
         
