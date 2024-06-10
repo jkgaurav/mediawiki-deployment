@@ -29,6 +29,9 @@ RUN cd /opt/rh/httpd24/root/var/www/html && \
 # Set environment variables for PHP and Apache
 ENV PATH="/opt/rh/rh-php73/root/usr/bin:/opt/rh/httpd24/root/usr/bin:$PATH"
 
+# Add ServerName directive to Apache config
+RUN echo "ServerName localhost" >> /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf
+
 # Expose port 80
 EXPOSE 80
 
