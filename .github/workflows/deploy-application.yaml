@@ -58,6 +58,20 @@ jobs:
       run: |
         kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
 
+    - name: Wait for NGINX Ingress Controller Pods to be Ready
+      run: |
+        while [[ $(kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True True" ]]; do
+          echo "Waiting for NGINX Ingress Controller pods to be ready..."
+          sleep 10
+        done
+      
+    - name: Wait for NGINX Ingress Controller Services to be Ready
+      run: |
+        while [[ $(kubectl get svc -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx -o 'jsonpath={..status.loadBalancer.ingress[0].ip}') == "" ]]; do
+          echo "Waiting for NGINX Ingress Controller services to be ready..."
+          sleep 10
+        done
+
     - name: Verify NGINX Ingress Controller Services
       run: |
         kubectl get svc -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
