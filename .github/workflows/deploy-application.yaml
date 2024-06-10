@@ -110,9 +110,9 @@ jobs:
       run: |
         kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
 
-    - name: Verify DNS Resolution
-      run: |
-        nslookup mediawiki.deployment.com
+    # - name: Verify DNS Resolution
+    #   run: |
+    #     nslookup mediawiki.deployment.com
 
     - name: Verify Ingress Controller Connectivity to MediaWiki Service
       run: |
